@@ -1,0 +1,5 @@
+# Vercel deploy ignore — skip files yang gak perlu di-upload
+# netlify.toml = config Netlify, gak relevan di Vercel
+# README.md = docs, gak perlu di-host
+netlify.toml
+README.md

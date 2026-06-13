@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZÉEN Studio — Built from Meaning</title>
+  <meta name="description" content="ZÉEN Studio (formerly Batavia Studio) — Cinematic photography untuk prewedding, wedding, product, corporate, dan event. From zero to endless." />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ZÉEN Studio — Built from Meaning" />
+  <meta property="og:description" content="Cinematic photography studio, reimagined from Batavia Studio. From zero to endless." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zeenstudio.id" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon (inline SVG, zero asset) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-size='62' font-family='Georgia,serif' fill='%23c9a875' text-anchor='middle' font-style='italic'%3EZ%3C/text%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN (zero build) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#0a0a0a',
+            elev: '#141414',
+            card: '#1a1a1a',
+            ink: '#f5f0e6',
+            muted: '#8a8a8a',
+            accent: '#c9a875',
+            'accent-soft': '#a89065',
+            line: '#1f1f1f',
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-up': 'fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+            'fade-in': 'fadeIn 1.2s ease-out forwards',
+            marquee: 'marquee 40s linear infinite',
+            'ken-burns': 'kenBurns 20s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            fadeUp: { '0%': { opacity: '0', transform: 'translateY(40px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } },
+            kenBurns: { '0%': { transform: 'scale(1)' }, '100%': { transform: 'scale(1.08)' } },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { background: #0a0a0a; color: #f5f0e6; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.22, 1, 0.36, 1); }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .nav-blur { backdrop-filter: blur(12px) saturate(180%); background: rgba(10,10,10,0.7); border-bottom: 1px solid #1f1f1f; }
+    .nav-top { background: transparent; border-bottom: 1px solid transparent; }
+    .grain::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .portfolio-item img { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    .portfolio-item:hover img { transform: scale(1.05); }
+    .portfolio-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.7)); opacity: 0; transition: opacity 0.4s; }
+    .portfolio-item:hover::after { opacity: 1; }
+    #lightbox { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    #lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox-img { transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+    #lightbox.open .lightbox-img { transform: scale(1); }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .animate-marquee { animation: none; } }
+  </style>
+</head>
+
+<body class="bg-base text-ink">
+
+  <!-- ============ NAV ============ -->
+  <nav id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500 nav-top">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+      <a href="#home" class="font-display text-2xl tracking-wider text-ink hover:text-accent transition-colors">Z<span class="text-accent">É</span>EN</a>
+      <ul class="hidden md:flex items-center gap-10 text-xs tracking-[0.25em] uppercase">
+        <li><a href="#about" class="text-muted hover:text-ink transition-colors">Tentang</a></li>
+        <li><a href="#services" class="text-muted hover:text-ink transition-colors">Layanan</a></li>
+        <li><a href="#work" class="text-muted hover:text-ink transition-colors">Karya</a></li>
+        <li><a href="#pricing" class="text-muted hover:text-ink transition-colors">Paket</a></li>
+        <li><a href="#contact" class="text-muted hover:text-ink transition-colors">Kontak</a></li>
+      </ul>
+      <a href="#contact" class="hidden md:inline-block text-xs tracking-[0.25em] uppercase border border-accent text-accent px-5 py-2.5 hover:bg-accent hover:text-base transition-all">Book Now</a>
+      <button id="menuBtn" class="md:hidden text-ink" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-base/95 backdrop-blur">
+      <ul class="px-6 py-6 space-y-4 text-sm tracking-[0.25em] uppercase">
+        <li><a href="#about" class="block text-muted hover:text-ink">Tentang</a></li>
+        <li><a href="#services" class="block text-muted hover:text-ink">Layanan</a></li>
+        <li><a href="#work" class="block text-muted hover:text-ink">Karya</a></li>
+        <li><a href="#pricing" class="block text-muted hover:text-ink">Paket</a></li>
+        <li><a href="#contact" class="block text-muted hover:text-ink">Kontak</a></li>
+        <li class="pt-2"><a href="#contact" class="inline-block text-xs tracking-[0.25em] uppercase border border-accent text-accent px-5 py-2.5">Book Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden grain">
+    <div class="absolute inset-0 z-0">
+      <img src="portfolio/foto-2.jpg" alt="" class="w-full h-full object-cover animate-ken-burns opacity-50" />
+      <div class="absolute inset-0 bg-gradient-to-b from-base/70 via-base/40 to-base"></div>
+    </div>
+    <div class="relative z-10 text-center px-6 max-w-5xl">
+      <p class="reveal text-xs md:text-sm tracking-[0.4em] uppercase text-accent mb-8">Cinematic Photography Studio</p>
+      <h1 class="reveal reveal-delay-1 font-display text-6xl md:text-8xl lg:text-9xl leading-[0.95] font-light tracking-tight">
+        Built from<br /><em class="text-accent">meaning.</em>
+      </h1>
+      <p class="reveal reveal-delay-2 mt-10 text-base md:text-lg text-muted max-w-2xl mx-auto leading-relaxed">
+        Dari prewedding sampai produk brand Anda — kami merangkai setiap frame dengan cerita, cahaya, dan makna yang bertahan.
+      </p>
+      <div class="reveal reveal-delay-3 mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#work" class="text-xs tracking-[0.3em] uppercase bg-accent text-base px-8 py-4 hover:bg-accent-soft transition-colors">Lihat Karya</a>
+        <a href="#contact" class="text-xs tracking-[0.3em] uppercase border border-ink/30 text-ink px-8 py-4 hover:border-accent hover:text-accent transition-colors">Booking Konsultasi</a>
+      </div>
+    </div>
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
+      <div class="w-[1px] h-16 bg-gradient-to-b from-transparent to-ink/40 relative overflow-hidden">
+        <div class="w-full h-4 bg-accent absolute top-0 animate-fade-in"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <section class="border-y border-line py-8 overflow-hidden bg-elev">
+    <div class="flex gap-16 animate-marquee whitespace-nowrap text-muted text-sm tracking-[0.3em] uppercase">
+      <span>✦ Prewedding</span><span>✦ Wedding</span><span>✦ Product</span><span>✦ Corporate</span><span>✦ Event</span><span>✦ Maternity</span><span>✦ Family</span><span>✦ Editorial</span>
+      <span>✦ Prewedding</span><span>✦ Wedding</span><span>✦ Product</span><span>✦ Corporate</span><span>✦ Event</span><span>✦ Maternity</span><span>✦ Family</span><span>✦ Editorial</span>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="py-32 px-6 lg:px-10 bg-base">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <div class="relative aspect-[3/4] overflow-hidden">
+        <img src="portfolio/foto-1.jpg" alt="Behind the scene ZÉEN Studio" class="w-full h-full object-cover" />
+        <div class="absolute top-6 left-6 right-6 bottom-6 border border-accent/30 pointer-events-none"></div>
+      </div>
+      <div>
+        <p class="reveal text-xs tracking-[0.4em] uppercase text-accent mb-6">Tentang Kami</p>
+        <h2 class="reveal reveal-delay-1 font-display text-5xl md:text-6xl lg:text-7xl leading-[1.05] font-light mb-10">
+          From <em>Batavia</em> Studio,<br />reimagined as <em class="text-accent">ZÉEN.</em>
+        </h2>
+        <div class="reveal reveal-delay-2 space-y-5 text-muted leading-relaxed">
+          <p>Kami bukan sekadar studio foto. ZÉEN lahir dari Batavia Studio — sebuah perjalanan panjang merangkai momen, dan sekarang berevolusi dengan visi yang lebih tajam: <span class="text-ink">setiap frame harus punya makna</span>.</p>
+          <p>Dari intimate prewedding di Bali, product launch brand lokal Jakarta, hingga wedding celebration ratusan tamu — kami mengabadikan bukan cuma gambar, tapi cerita yang akan Anda ingat puluhan tahun.</p>
+        </div>
+        <div class="reveal reveal-delay-3 grid grid-cols-3 gap-8 mt-14 pt-10 border-t border-line">
+          <div>
+            <div class="font-display text-4xl md:text-5xl text-accent">350+</div>
+            <div class="text-xs tracking-[0.25em] uppercase text-muted mt-2">Karya</div>
+          </div>
+          <div>
+            <div class="font-display text-4xl md:text-5xl text-accent">2,7K+</div>
+            <div class="text-xs tracking-[0.25em] uppercase text-muted mt-2">Komunitas</div>
+          </div>
+          <div>
+            <div class="font-display text-4xl md:text-5xl text-accent">7+</div>
+            <div class="text-xs tracking-[0.25em] uppercase text-muted mt-2">Tahun</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services" class="py-32 px-6 lg:px-10 bg-elev border-y border-line">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-20">
+        <p class="reveal text-xs tracking-[0.4em] uppercase text-accent mb-6">Layanan</p>
+        <h2 class="reveal reveal-delay-1 font-display text-5xl md:text-6xl lg:text-7xl leading-[1.05] font-light">
+          Crafted for your <em class="text-accent">story.</em>
+        </h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-line">
+        <div class="bg-elev p-10 hover:bg-card transition-colors group">
+          <div class="font-display text-5xl text-accent/30 group-hover:text-accent transition-colors mb-6">01</div>
+          <h3 class="font-display text-2xl mb-3">Prewedding</h3>
+          <p class="text-sm text-muted leading-relaxed">Sesi romantis di lokasi pilihan — Bali, Jakarta, Yogyakarta, atau konsep outdoor tematik. Edit cinematic dengan tone yang hangat dan intimate.</p>
+        </div>
+        <div class="bg-elev p-10 hover:bg-card transition-colors group">
+          <div class="font-display text-5xl text-accent/30 group-hover:text-accent transition-colors mb-6">02</div>
+          <h3 class="font-display text-2xl mb-3">Wedding</h3>
+          <p class="text-sm text-muted leading-relaxed">Dokumentasi penuh dari akad sampai resepsi. Tim profesional, double coverage, dan album premium sebagai kenangan seumur hidup.</p>
+        </div>
+        <div class="bg-elev p-10 hover:bg-card transition-colors group">
+          <div class="font-display text-5xl text-accent/30 group-hover:text-accent transition-colors mb-6">03</div>
+          <h3 class="font-display text-2xl mb-3">Product</h3>
+          <p class="text-sm text-muted leading-relaxed">Foto katalog & e-commerce untuk brand lokal. Clean look, flat lay, atau lifestyle — semua disesuaikan dengan identitas brand Anda.</p>
+        </div>
+        <div class="bg-elev p-10 hover:bg-card transition-colors group">
+          <div class="font-display text-5xl text-accent/30 group-hover:text-accent transition-colors mb-6">04</div>
+          <h3 class="font-display text-2xl mb-3">Corporate</h3>
+          <p class="text-sm text-muted leading-relaxed">Headshot tim, company profile, dan dokumentasi event korporat. Cocok untuk brand yang ingin tampil profesional dan konsisten.</p>
+        </div>
+        <div class="bg-elev p-10 hover:bg-card transition-colors group">
+          <div class="font-display text-5xl text-accent/30 group-hover:text-accent transition-colors mb-6">05</div>
+          <h3 class="font-display text-2xl mb-3">Event</h3>
+          <p class="text-sm text-muted leading-relaxed">Launching produk, gathering, atau milestone pribadi. Tim mobile yang fleksibel, hasil ready-to-post untuk social media.</p>
+        </div>
+        <div class="bg-elev p-10 hover:bg-card transition-colors group">
+          <div class="font-display text-5xl text-accent/30 group-hover:text-accent transition-colors mb-6">06</div>
+          <h3 class="font-display text-2xl mb-3">Maternity & Family</h3>
+          <p class="text-sm text-muted leading-relaxed">Sesi kehamilan, newborn, dan keluarga. Studio nyaman dengan pencahayaan natural, hasil soft dan timeless.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PORTFOLIO ============ -->
+  <section id="work" class="py-32 px-6 lg:px-10 bg-base">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+        <div>
+          <p class="reveal text-xs tracking-[0.4em] uppercase text-accent mb-6">Karya</p>
+          <h2 class="reveal reveal-delay-1 font-display text-5xl md:text-6xl lg:text-7xl leading-[1.05] font-light">
+            From <em class="text-accent">zero</em><br />to endless.
+          </h2>
+        </div>
+        <a href="#contact" class="reveal reveal-delay-2 text-xs tracking-[0.3em] uppercase text-muted hover:text-accent transition-colors">Minta Portofolio Lengkap →</a>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        <div class="portfolio-item relative aspect-[4/5] overflow-hidden cursor-pointer col-span-1" data-img="portfolio/foto-3.jpg" data-cat="Family">
+          <img src="portfolio/foto-3.jpg" alt="Family" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Family</div>
+        </div>
+        <div class="portfolio-item relative aspect-[4/5] overflow-hidden cursor-pointer" data-img="portfolio/foto-5.jpg" data-cat="Kids">
+          <img src="portfolio/foto-5.jpg" alt="Kids" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Kids</div>
+        </div>
+        <div class="portfolio-item relative aspect-[4/5] overflow-hidden cursor-pointer row-span-2" data-img="portfolio/foto-4.webp" data-cat="Editorial">
+          <img src="portfolio/foto-4.webp" alt="Editorial" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Editorial</div>
+        </div>
+        <div class="portfolio-item relative aspect-[4/3] overflow-hidden cursor-pointer col-span-2" data-img="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=2400&q=85&fm=webp&fit=crop" data-cat="Family">
+          <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80&fm=webp&fit=crop" alt="Family" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Family</div>
+        </div>
+        <div class="portfolio-item relative aspect-square overflow-hidden cursor-pointer" data-img="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=2400&q=85&fm=webp&fit=crop" data-cat="Product">
+          <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80&fm=webp&fit=crop" alt="Product" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Product</div>
+        </div>
+        <div class="portfolio-item relative aspect-square overflow-hidden cursor-pointer" data-img="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=2400&q=85&fm=webp&fit=crop" data-cat="Editorial">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80&fm=webp&fit=crop" alt="Editorial" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Editorial</div>
+        </div>
+        <div class="portfolio-item relative aspect-[4/5] overflow-hidden cursor-pointer" data-img="https://images.unsplash.com/photo-1525772764200-be829a350797?w=2400&q=85&fm=webp&fit=crop" data-cat="Maternity">
+          <img src="https://images.unsplash.com/photo-1525772764200-be829a350797?w=800&q=80&fm=webp&fit=crop" alt="Maternity" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Maternity</div>
+        </div>
+        <div class="portfolio-item relative aspect-[4/5] overflow-hidden cursor-pointer" data-img="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=2400&q=85&fm=webp&fit=crop" data-cat="Wedding">
+          <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80&fm=webp&fit=crop" alt="Wedding" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute bottom-4 left-4 z-10 text-[10px] tracking-[0.3em] uppercase text-ink/80">Wedding</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section id="pricing" class="py-32 px-6 lg:px-10 bg-elev border-y border-line">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-20">
+        <p class="reveal text-xs tracking-[0.4em] uppercase text-accent mb-6">Paket</p>
+        <h2 class="reveal reveal-delay-1 font-display text-5xl md:text-6xl lg:text-7xl leading-[1.05] font-light">
+          Simple. <em class="text-accent">Honest.</em>
+        </h2>
+        <p class="reveal reveal-delay-2 mt-6 text-muted text-sm tracking-wide">Pilih paket yang sesuai, atau custom sesuai kebutuhan Anda.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Bronze -->
+        <div class="reveal bg-base border border-line p-10 hover:border-accent/50 transition-colors">
+          <div class="text-xs tracking-[0.3em] uppercase text-muted mb-2">Bronze</div>
+          <h3 class="font-display text-3xl mb-1">Essential</h3>
+          <p class="text-muted text-sm mb-8">Untuk sesi singkat & personal</p>
+          <div class="font-display text-5xl text-accent mb-8"><span class="text-base text-sm align-top text-muted">Mulai</span> 4.5<span class="text-base text-sm text-muted">jt</span></div>
+          <ul class="space-y-3 text-sm text-muted mb-10">
+            <li class="flex gap-3"><span class="text-accent">✦</span> 1–2 jam sesi foto</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 1 lokasi pilihan</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 20+ foto edit profesional</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> File digital (Google Drive)</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 7 hari kerja</li>
+          </ul>
+          <a href="#contact" class="block text-center text-xs tracking-[0.3em] uppercase border border-ink/30 text-ink px-6 py-4 hover:border-accent hover:text-accent transition-colors">Pilih Paket</a>
+        </div>
+        <!-- Silver (Popular) -->
+        <div class="reveal reveal-delay-1 relative bg-base border-2 border-accent p-10">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-base text-[10px] tracking-widest uppercase px-4 py-1">Popular</div>
+          <div class="text-xs tracking-[0.3em] uppercase text-muted mb-2">Silver</div>
+          <h3 class="font-display text-3xl mb-1">Signature</h3>
+          <p class="text-muted text-sm mb-8">Paling pas untuk prewedding & product</p>
+          <div class="font-display text-5xl text-accent mb-8"><span class="text-base text-sm align-top text-muted">Mulai</span> 8.5<span class="text-base text-sm text-muted">jt</span></div>
+          <ul class="space-y-3 text-sm text-muted mb-10">
+            <li class="flex gap-3"><span class="text-accent">✦</span> 3–4 jam sesi foto</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 2 lokasi pilihan</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 50+ foto edit profesional</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> Album mini 20 halaman</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 5 hari kerja</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 1x revisi konsep</li>
+          </ul>
+          <a href="#contact" class="block text-center text-xs tracking-[0.3em] uppercase bg-accent text-base px-6 py-4 hover:bg-accent-soft transition-colors">Pilih Paket</a>
+        </div>
+        <!-- Gold -->
+        <div class="reveal reveal-delay-2 bg-base border border-line p-10 hover:border-accent/50 transition-colors">
+          <div class="text-xs tracking-[0.3em] uppercase text-muted mb-2">Gold</div>
+          <h3 class="font-display text-3xl mb-1">Full Coverage</h3>
+          <p class="text-muted text-sm mb-8">Untuk wedding & event penuh</p>
+          <div class="font-display text-5xl text-accent mb-8"><span class="text-base text-sm align-top text-muted">Mulai</span> 18<span class="text-base text-sm text-muted">jt</span></div>
+          <ul class="space-y-3 text-sm text-muted mb-10">
+            <li class="flex gap-3"><span class="text-accent">✦</span> Full day (8+ jam)</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> Double photographer</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 200+ foto edit profesional</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> Album premium 40 halaman</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> Video highlight cinematic</li>
+            <li class="flex gap-3"><span class="text-accent">✦</span> 14 hari kerja</li>
+          </ul>
+          <a href="#contact" class="block text-center text-xs tracking-[0.3em] uppercase border border-ink/30 text-ink px-6 py-4 hover:border-accent hover:text-accent transition-colors">Pilih Paket</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONI ============ -->
+  <section class="py-32 px-6 lg:px-10 bg-base">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-20">
+        <p class="reveal text-xs tracking-[0.4em] uppercase text-accent mb-6">Testimoni</p>
+        <h2 class="reveal reveal-delay-1 font-display text-5xl md:text-6xl lg:text-7xl leading-[1.05] font-light">
+          What they <em class="text-accent">say.</em>
+        </h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div class="reveal bg-elev border border-line p-10">
+          <div class="text-accent text-3xl font-display leading-none mb-6">"</div>
+          <p class="text-muted leading-relaxed mb-8">Hasil foto prewedding kami di Bali benar-benar di luar ekspektasi. Tone hangat, angle-nya cinematic banget. Pokoknya timeless.</p>
+          <div class="flex items-center gap-4 pt-6 border-t border-line">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent-soft flex items-center justify-center font-display text-base">R</div>
+            <div>
+              <div class="text-sm">[Nama Klien]</div>
+              <div class="text-xs text-muted tracking-wider">Prewedding · 2025</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal reveal-delay-1 bg-elev border border-line p-10">
+          <div class="text-accent text-3xl font-display leading-none mb-6">"</div>
+          <p class="text-muted leading-relaxed mb-8">Tim-nya profesional, fast response, dan hasil foto produk kami langsung bisa upload ke marketplace. Naik conversion 30% setelah ganti foto.</p>
+          <div class="flex items-center gap-4 pt-6 border-t border-line">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent-soft flex items-center justify-center font-display text-base">A</div>
+            <div>
+              <div class="text-sm">[Nama Brand]</div>
+              <div class="text-xs text-muted tracking-wider">Product · 2025</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal reveal-delay-2 bg-elev border border-line p-10">
+          <div class="text-accent text-3xl font-display leading-none mb-6">"</div>
+          <p class="text-muted leading-relaxed mb-8">Dokumentasi wedding kami dari pagi sampai malam, semua terekam dengan baik. Album preminya juga mewah banget. Recommended!</p>
+          <div class="flex items-center gap-4 pt-6 border-t border-line">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent-soft flex items-center justify-center font-display text-base">D</div>
+            <div>
+              <div class="text-sm">[Nama Klien]</div>
+              <div class="text-xs text-muted tracking-wider">Wedding · 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="py-32 px-6 lg:px-10 bg-elev border-t border-line">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24">
+      <div>
+        <p class="reveal text-xs tracking-[0.4em] uppercase text-accent mb-6">Kontak</p>
+        <h2 class="reveal reveal-delay-1 font-display text-5xl md:text-6xl lg:text-7xl leading-[1.05] font-light mb-10">
+          Let's create <em class="text-accent">together.</em>
+        </h2>
+        <p class="reveal reveal-delay-2 text-muted leading-relaxed mb-12">Ceritakan momen Anda — wedding, prewedding, product launch, atau event korporat. Kami akan reply dalam 1×24 jam dengan konsep & quote.</p>
+        <div class="reveal reveal-delay-3 space-y-6">
+          <a href="https://wa.me/6281632474061?text=Halo%20Z%C3%89EN%20Studio%2C%20saya%20mau%20tanya%20soal%20paket%20foto" target="_blank" rel="noopener" class="flex items-center gap-5 group">
+            <div class="w-12 h-12 rounded-full border border-line flex items-center justify-center group-hover:border-accent transition-colors">
+              <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </div>
+            <div>
+              <div class="text-xs tracking-[0.25em] uppercase text-muted">WhatsApp</div>
+              <div class="font-display text-xl group-hover:text-accent transition-colors">+62 816-3247-4061</div>
+            </div>
+          </a>
+          <a href="mailto:renobatavia@gmail.com" class="flex items-center gap-5 group">
+            <div class="w-12 h-12 rounded-full border border-line flex items-center justify-center group-hover:border-accent transition-colors">
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+            </div>
+            <div>
+              <div class="text-xs tracking-[0.25em] uppercase text-muted">Email</div>
+              <div class="font-display text-xl group-hover:text-accent transition-colors">renobatavia@gmail.com</div>
+            </div>
+          </a>
+          <div class="flex items-center gap-5">
+            <div class="w-12 h-12 rounded-full border border-line flex items-center justify-center">
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+            </div>
+            <div>
+              <div class="text-xs tracking-[0.25em] uppercase text-muted">Studio</div>
+              <div class="font-display text-xl">Jambi, Indonesia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form id="contactForm" class="reveal reveal-delay-1 space-y-5 bg-base border border-line p-8 md:p-10">
+        <div>
+          <label class="text-xs tracking-[0.25em] uppercase text-muted block mb-2">Nama</label>
+          <input type="text" name="name" required class="w-full bg-elev border border-line focus:border-accent outline-none px-4 py-3 text-sm transition-colors" placeholder="Nama Anda" />
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label class="text-xs tracking-[0.25em] uppercase text-muted block mb-2">WhatsApp</label>
+            <input type="tel" name="phone" required class="w-full bg-elev border border-line focus:border-accent outline-none px-4 py-3 text-sm transition-colors" placeholder="628xxx" />
+          </div>
+          <div>
+            <label class="text-xs tracking-[0.25em] uppercase text-muted block mb-2">Layanan</label>
+            <select name="service" class="w-full bg-elev border border-line focus:border-accent outline-none px-4 py-3 text-sm transition-colors">
+              <option>Prewedding</option><option>Wedding</option><option>Product</option><option>Corporate</option><option>Event</option><option>Maternity & Family</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs tracking-[0.25em] uppercase text-muted block mb-2">Pesan</label>
+          <textarea name="message" rows="4" required class="w-full bg-elev border border-line focus:border-accent outline-none px-4 py-3 text-sm transition-colors resize-none" placeholder="Ceritakan kebutuhan Anda (tanggal, lokasi, konsep)..."></textarea>
+        </div>
+        <button type="submit" class="w-full text-xs tracking-[0.3em] uppercase bg-accent text-base px-6 py-4 hover:bg-accent-soft transition-colors">Kirim via WhatsApp</button>
+        <p class="text-xs text-muted text-center">Akan diarahkan ke WhatsApp dengan pesan terformat.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="py-12 px-6 lg:px-10 bg-base border-t border-line">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
+      <div class="text-xs tracking-[0.25em] uppercase text-muted">© 2026 ZÉEN Studio · Built from meaning.</div>
+      <div class="flex items-center gap-6 text-xs tracking-[0.25em] uppercase">
+        <a href="https://wa.me/6281632474061" target="_blank" rel="noopener" class="hover:text-accent transition-colors">WA</a>
+        <a href="https://instagram.com/zeenstudio.id" target="_blank" rel="noopener" class="hover:text-accent transition-colors">IG</a>
+        <a href="mailto:renobatavia@gmail.com" class="hover:text-accent transition-colors">Mail</a>
+        <a href="#home" class="hover:text-accent transition-colors">↑ Top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ FLOATING WHATSAPP ============ -->
+  <a href="https://wa.me/6281632474061?text=Halo%20Z%C3%89EN%20Studio%2C%20saya%20mau%20booking" target="_blank" rel="noopener" id="floatWA" class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-transform" aria-label="WhatsApp">
+    <span class="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30"></span>
+    <svg class="w-7 h-7 relative" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div id="lightbox" class="fixed inset-0 z-[60] bg-base/95 backdrop-blur-md flex items-center justify-center p-6" role="dialog" aria-modal="true">
+    <button id="lbClose" class="absolute top-6 right-6 w-12 h-12 rounded-full border border-line flex items-center justify-center text-ink hover:border-accent hover:text-accent transition-colors" aria-label="Close">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+    </button>
+    <img id="lbImg" src="" alt="" class="lightbox-img max-w-full max-h-[85vh] object-contain" />
+    <div id="lbCat" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs tracking-[0.4em] uppercase text-accent"></div>
+  </div>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 40) nav.classList.add('nav-blur'), nav.classList.remove('nav-top');
+      else nav.classList.add('nav-top'), nav.classList.remove('nav-blur');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Lightbox
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbCat = document.getElementById('lbCat');
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      item.addEventListener('click', () => {
+        lbImg.src = item.dataset.img;
+        lbImg.alt = item.dataset.cat;
+        lbCat.textContent = item.dataset.cat;
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    document.getElementById('lbClose').addEventListener('click', closeLB);
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLB(); });
+    function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLB(); });
+
+    // Contact form → WhatsApp
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const name = fd.get('name'); const phone = fd.get('phone'); const svc = fd.get('service'); const msg = fd.get('message');
+      const text = `Halo ZÉEN Studio,%0A%0ANama: ${name}%0AWhatsApp: ${phone}%0ALayanan: ${svc}%0A%0APesan:%0A${msg}`;
+      window.open(`https://wa.me/6281632474061?text=${text}`, '_blank');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Netlify config for ZÉEN Studio
+# Deploy via: drag folder ke https://app.netlify.com/drop
+# Edit nanti: tinggal drag folder updated ke site yang sama di dashboard
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/portfolio/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
